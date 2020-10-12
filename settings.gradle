@@ -1,1 +1,2 @@
+include ':hsm-android-print'
 include ':sample', ':draw-receipt'

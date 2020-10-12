@@ -1,0 +1,11 @@
+<component name="libraryTable">
+  <library name="Gradle: it.sephiroth.android.library.imagezoom:imagezoom:2.3.0@aar">
+    <CLASSES>
+      <root url="file://$USER_HOME$/.android/build-cache/04bcc2fd1111519bc9ab3c16b9d21b700ba1c264/output/AndroidManifest.xml" />
+      <root url="jar://$USER_HOME$/.android/build-cache/04bcc2fd1111519bc9ab3c16b9d21b700ba1c264/output/jars/classes.jar!/" />
+      <root url="file://$USER_HOME$/.android/build-cache/04bcc2fd1111519bc9ab3c16b9d21b700ba1c264/output/res" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/-242583846/DrawReceipt.iml" filepath="$PROJECT_DIR$/.idea/modules/-242583846/DrawReceipt.iml" group="DrawReceipt" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/143141828/draw-receipt.iml" filepath="$PROJECT_DIR$/.idea/modules/143141828/draw-receipt.iml" group="DrawReceipt/draw-receipt" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/-1206947825/hsm-android-print.iml" filepath="$PROJECT_DIR$/.idea/modules/-1206947825/hsm-android-print.iml" group="DrawReceipt/hsm-android-print" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/sample.iml" filepath="$PROJECT_DIR$/.idea/modules/sample.iml" group="DrawReceipt/sample" />
+    </modules>
+  </component>
+</project>
