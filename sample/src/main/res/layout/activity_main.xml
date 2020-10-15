@@ -29,21 +29,23 @@
         android:layout_toRightOf="@id/btDraw"
         android:layout_below="@id/tvDraw"
         android:text="Print" />
+
     <TextView
         android:id="@+id/msgText"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/btDraw"
-        android:lines="4"
-        android:maxLines="4"
-        android:minLines="4" />
+        android:background="#DADADA"
+        android:lines="5"
+        android:maxLines="5"
+        android:minLines="5" />
 
     <HorizontalScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/msgText"
         android:id="@+id/scrollView"
-        android:visibility="gone"
+        android:visibility="visible"
         >
 
         <ScrollView
@@ -61,9 +63,10 @@
     </HorizontalScrollView>
 
     <it.sephiroth.android.library.imagezoom.ImageViewTouch
+        android:visibility="gone"
         android:id="@+id/imageViewTouch"
         android:layout_width="match_parent"
-        android:layout_height="200dp"
+        android:layout_height="match_parent"
         android:layout_weight="1"
         android:layout_below="@id/scrollView"
         />

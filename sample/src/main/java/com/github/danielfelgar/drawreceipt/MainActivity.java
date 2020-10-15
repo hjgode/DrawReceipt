@@ -2,7 +2,9 @@ package com.github.danielfelgar.drawreceipt;
 
 import android.Manifest;
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.pm.PackageManager;
 import android.content.res.AssetManager;
 import android.graphics.Bitmap;
@@ -18,6 +20,7 @@ import android.support.annotation.RequiresApi;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
+import android.text.method.ScrollingMovementMethod;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -64,6 +67,7 @@ public class MainActivity extends AppCompatActivity {
 
     final String filename="receipt.png";
     final String TAG="ReceiptPrinting";
+    Context context=this;
 
     @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
@@ -72,14 +76,11 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
 
+        textMsg.setMovementMethod(new ScrollingMovementMethod());
+
+        myCheckPermissions();
+
         imageViewTouch=findViewById(R.id.imageViewTouch);
-
-        if(ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED)
-        {
-            requestPermissions(new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},123);
-        }
-
-        copyAssetFiles();
 
         buttonPrint.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view)
@@ -95,15 +96,62 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.M)
+    void myCheckPermissions(){
+        if(ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED)
+        {
+            Log.d(TAG, "requesting permission");
+            requestPermissions(new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},123);
+        }else{
+            Log.d(TAG, "permission already granted");
+            copyAssetFiles();
+        }
+
+
+
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.M)
+    @Override
+    public void onResume(){
+        super.onResume();
+        myCheckPermissions();
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
     public void onRequestPermissionsResult(int requestCode,  String permissions[], int[] grantResults) {
         switch (requestCode) {
             case 123: {
                 // If request is cancelled, the result arrays are empty.
                 if ((grantResults.length > 0) && grantResults[0]==PackageManager.PERMISSION_GRANTED) {
-
+                    Log.d(TAG, "permission granted");
+                    copyAssetFiles();
                 } else {
                     // denied
+                    Log.d(TAG, "permission denied");
+                    textMsg.setText("Without Write permission the app cannot work! Please grant Write permissions");
+                    DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            switch (which){
+                                case DialogInterface.BUTTON_POSITIVE:
+                                    //Yes button clicked
+                                    requestPermissions(new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},123);
+                                    break;
+
+                                case DialogInterface.BUTTON_NEGATIVE:
+                                    //No button clicked
+                                    finish();
+                                    break;
+                            }
+                        }
+                    };
+
+                    AlertDialog.Builder builder = new AlertDialog.Builder(context);
+                    builder.setMessage("Without permission, the app will not work. Retry?").setPositiveButton("Yes", dialogClickListener)
+                            .setNegativeButton("No", dialogClickListener).show();
+
                 }
                 break;
             }
@@ -118,9 +166,22 @@ public class MainActivity extends AppCompatActivity {
         receipt.setMargin(30, 20).
                 setAlign(Paint.Align.CENTER).
                 setColor(Color.BLACK).
-                setTextSize(60).
+                setTextSize(24).
                 setTypeface(this, "fonts/RobotoMono-Regular.ttf").
-                addText("LakeFront Cafe").
+                //custom
+                addText("2. Check the Gas Hose                        -     YES").
+                addText("افحص خرطوم الغاز").
+                addText("گیس نلی چیک کریں").
+                addText("3. Check the Gas Regulator                   -     YES").
+                addText("افحص منظم الغاز").
+                addText("گیس ریگولیٹر چیک کریں").
+                addText("4. Check the Clip is connected with the Hose -     YES").
+                addText("تحقق من توصيل المشبك بالخرطوم").
+                addText("کلپ نلی کے ساتھ جڑا ہوا ہے چیک کریں").
+                addText("5. Examine the Gas Leak by Soap Solution     -     YES").
+                addText("افحص تسرب الغاز بواسطة محلول الصابون").
+                addText("صابن حل کے ذریعہ گیس لیک کی جانچ کریں")
+/*                addText("LakeFront Cafe").
 addText("صلاحية أسطوانة الغاز").
                 addText("1234 Main St.").
 addText("ہیلو ورلڈ").
@@ -175,7 +236,9 @@ addText("ہیلو ورلڈ").
                 setTypeface(this, "fonts/RobotoMono-Regular.ttf").
                 addText("APPROVED").
                 addParagraph().
-                addImage(barcode);
+                addImage(barcode)
+ */
+                ;
         Bitmap bmpReceipt=receipt.build();
 
         int width=bmpReceipt.getWidth();
@@ -414,7 +477,7 @@ addText("ہیلو ورلڈ").
                     int width = options.outWidth;
                     int height = options.outHeight;
                     //ie Receipt size=1200x1795
-                    int printWidth=5*203; //for a PB51: 5x203
+                    int printWidth=2*203; //for a PB51: 5x203
                     int offsetX=0;
                     if(width<printWidth){
                         //add offset
